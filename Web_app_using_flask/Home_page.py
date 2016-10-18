@@ -1,14 +1,19 @@
-from flask import Flask, redirect, render_template, url_for, request, send_from_directory
-from flask_login import LoginManager, UserMixin, login_user, current_user
+from flask import Flask, redirect, render_template, url_for, request, send_from_directory, session,Response
+from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user
 from werkzeug.utils import secure_filename
 import os
 
 app = Flask(__name__)
 FLASK_PORT = 8766
-FLASK_HOST = "localhost"
+FLASK_HOST = 'localhost'
+app.secret_key = os.urandom(32)
 
-app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['GLOBAL_DIR'] = 'static/users'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 
 def allowed_file(filename):
@@ -53,8 +58,18 @@ def login():
     password = request.form['password']
     for user in users:
         if user.username == username and user.password == password:
-            return render_template('upload_file.html')
+            session['username'] = request.form['username']
+            login_user(user)
+            os.system("mkdir -p " + app.config['GLOBAL_DIR'] + '/' + current_user.username + '/')
+            user = current_user.username
+            return render_template('upload_file.html', name=user)
     return "Invalid Credentials"
+
+
+# callback to reload the user object
+@login_manager.user_loader
+def load_user(userid):
+    return users[int(userid)]
 
 
 @app.route('/upload', methods=["GET", "POST"])
@@ -62,14 +77,15 @@ def upload_file():
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('uploaded_file', filename=filename))
+        file.save(os.path.join(app.config['GLOBAL_DIR'] + '/' + current_user.username, filename))
+        return Response('File Upload Successfull')
 
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+@app.route('/logout', methods=["GET"])
+def logout():
+    session.clear()
+    logout_user()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

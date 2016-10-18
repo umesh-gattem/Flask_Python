@@ -1,22 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-          rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h3 class="text-muted">Upload a File</h3>
-      </div>
-      <hr/>
-      <div>
+<head>
+    <style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #d0d3d4 ;
+}
 
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"><br /><br />
-        <input type="submit" value="Upload">
-      </form>
-      </div>
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: blue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    color: green;
+}
+
+
+
+
+
+
+    </style>
+    <link rel="stylesheet" href="static/css/upload_file.css">
+    <link rel="stylesheet" href="static/css/logout.css">
+
+
+</head>
+
+
+<!--<body background="static/images/background.jpeg">-->
+<body>
+
+<ul>
+    <li>
+        <div class="dropdown">
+            <a class="dropbtn" type="button" data-toggle="dropdown" href="/logout">Logout<span id="user_name"></span>
+                <span class="caret"></span></a>
+            <ul class="dropdown-content">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </li>
+</ul>
+
+
+<div class="container">
+    <div class="header">
+        <h3 class="text-muted">Upload a File</h3>
     </div>
-  </body>
+    <hr/>
+    <div>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"><br/><br/>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</div>
+</body>
 </html>

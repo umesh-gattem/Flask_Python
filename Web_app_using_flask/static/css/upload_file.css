@@ -47,20 +47,17 @@
   position: relative;
   z-index: 1;
   max-width: 300px;
-  margin: 0 auto;
+  margin: 100px;
 }
 
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
+.container .header h3 {
+  margin: 15px 15px;
   padding: 0;
   font-size: 36px;
   font-weight: 300;
   color: #2C1417;
 }
+
 
 /* END Form */
 /* Demo Purposes */
