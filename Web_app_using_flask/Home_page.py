@@ -5,7 +5,8 @@ import os
 
 app = Flask(__name__)
 FLASK_PORT = 8766
-FLASK_HOST = 'localhost'
+# FLASK_HOST = 'localhost'
+FLASK_HOST = '192.168.48.204'
 app.secret_key = os.urandom(32)
 
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
