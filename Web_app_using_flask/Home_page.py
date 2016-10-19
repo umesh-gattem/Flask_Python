@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, send_from_directory, session,Response
+from flask import Flask, redirect, render_template, url_for, request, session, Response
 from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user
 from werkzeug.utils import secure_filename
 import os
@@ -78,7 +78,7 @@ def upload_file():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['GLOBAL_DIR'] + '/' + current_user.username, filename))
-        return Response('File Upload Successfull')
+        return Response("File uploaded successfully")
 
 
 @app.route('/logout', methods=["GET"])
