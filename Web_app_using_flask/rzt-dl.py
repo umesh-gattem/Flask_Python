@@ -1,0 +1,3 @@
+FLASK_PORT = 8766
+FLASK_HOST = '192.168.48.204'
+GLOBAL_DIR = 'static/users'

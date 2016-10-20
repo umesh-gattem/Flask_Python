@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-ul {
+    <link rel="stylesheet" href="static/css/upload_file.css">
+    <!--<link rel="stylesheet" href="static/css/logout.css">-->
+</head>
+
+<style>
+    ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -17,6 +21,7 @@ li {
 li a {
     display: block;
     color: blue;
+    background-color: #4CAF50;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -25,18 +30,7 @@ li a {
 li a:hover {
     color: green;
 }
-
-
-
-
-
-
-    </style>
-    <link rel="stylesheet" href="static/css/upload_file.css">
-    <link rel="stylesheet" href="static/css/logout.css">
-
-
-</head>
+</style>
 
 
 <!--<body background="static/images/background.jpeg">-->
@@ -45,11 +39,8 @@ li a:hover {
 <ul>
     <li>
         <div class="dropdown">
-            <a class="dropbtn" type="button" data-toggle="dropdown" href="/logout">Logout<span id="user_name"></span>
+            <a class="dropbtn"  href="/logout">Logout<span id="user_name"></span>
                 <span class="caret"></span></a>
-            <ul class="dropdown-content">
-                <li><a href="/logout">Logout</a></li>
-            </ul>
         </div>
     </li>
 </ul>
