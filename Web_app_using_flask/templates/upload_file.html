@@ -33,31 +33,29 @@ li a:hover {
 </style>
 
 
-<!--<body background="static/images/background.jpeg">-->
-<body>
-
+<body background="static/images/image.jpg">
 <ul>
     <li>
         <div class="dropdown">
-            <a class="dropbtn"  href="/logout">Logout<span id="user_name"></span>
+            <a class="dropbtn" href="/logout">Logout<span id="user_name"></span>
                 <span class="caret"></span></a>
         </div>
     </li>
 </ul>
 
-
 <div class="container">
     <div class="header">
         <h3 class="text-muted">Upload a File</h3>
     </div>
-    <hr/>
-    <div>
-
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file"><br/><br/>
-            <input type="submit" value="Upload">
+    <div class="file_upload_form">
+        <form id="upload-file" method="post" enctype="multipart/form-data">
+            <label for="file">Select a file</label><br><br>
+            <input name="file" type="file"><br><br>
+            <button id="upload-file-btn" type="button">Upload</button>
         </form>
     </div>
 </div>
 </body>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="static/js/upload_file.js"></script>
 </html>

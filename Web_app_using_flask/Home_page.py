@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, session, Response, make_response, flash
+from flask import Flask, redirect, jsonify, render_template, url_for, request, session, Response, make_response, flash
 from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required, abort
 from werkzeug.utils import secure_filename
 import os
@@ -11,7 +11,7 @@ app = Flask(__name__)
 # FLASK_HOST = '192.168.48.204'
 app.secret_key = os.urandom(32)
 
-app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'csv', 'py'])
 app.config['GLOBAL_DIR'] = 'static/users'
 
 # PyLogger Initialization
@@ -71,7 +71,7 @@ def login():
                 os.system("mkdir -p " + app.config['GLOBAL_DIR'] + '/' + current_user.username + '/')
                 return redirect('/')
         else:
-            return redirect(url_for('home'))
+            return make_response(render_template('login.html'), 401)
     else:
         return render_template('login.html')
 
@@ -87,13 +87,17 @@ def load_user(userid):
     return users[int(userid)]
 
 
-@app.route('/upload', methods=["GET", "POST"])
+@app.route('/upload', methods=["POST"])
 def upload_file():
-    file = request.files['file']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['GLOBAL_DIR'] + '/' + current_user.username, filename))
-        return redirect(url_for('index'))
+    if request.method == 'POST':
+        print("upload")
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['GLOBAL_DIR'] + '/' + current_user.username, filename))
+            return make_response(render_template('upload_file.html'), 200)
+        else:
+            return make_response(render_template('upload_file.html'), 401)
 
 
 @app.route('/logout', methods=["GET"])
@@ -107,10 +111,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description='PyFlow: Debugger')
-    # parser.add_argument('-f', '--file', help='Input File for debugging', required=False)
-    # parser.add_argument('-r', help="Run Flask", required=True)
-    # app.run(host=app.config['FLASK_HOST'], port=app.config['FLASK_PORT'])
     parser = argparse.ArgumentParser(description='PyFlow: Debugger')
     parser.add_argument('-f', '--file', help='Input File for debugging', required=False)
     parser.add_argument('-r', help="Run Flask", required=True)
@@ -118,4 +118,3 @@ if __name__ == '__main__':
     if args['r']:
         app.config.from_pyfile(args['r'])
         app.run(host=app.config['FLASK_HOST'], port=app.config['FLASK_PORT'])
-
